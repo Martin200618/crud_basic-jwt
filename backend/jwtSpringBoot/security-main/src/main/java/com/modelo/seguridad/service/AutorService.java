@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.modelo.seguridad.DTO.autorDTO;
-import com.modelo.seguridad.model.autor;
+import com.modelo.seguridad.model.Autores;
 import com.modelo.seguridad.repository.AutorRepository;
 
 @Service
@@ -18,37 +18,37 @@ public class AutorService {
     private AutorRepository autorRepository;
 
     // Obtener todos los autores
-    public List<autor> findAll() {
+    public List<Autores> findAll() {
         return autorRepository.findAll();
     }
 
     // Obtener autor por ID
-    public Optional<autor> findById(Long id) {
+    public Optional<Autores> findById(Long id) {
         return autorRepository.findById(id);
     }
 
     // Registrar un autor
     public String save(autorDTO dto) {
-        autor autor = convertToModel(dto);
+        Autores autor = convertToModel(dto);
         autorRepository.save(autor);
         return HttpStatus.OK.toString() + ": Autor registrado exitosamente";
     }
 
     // Actualizar un autor
     public String update(Long id, autorDTO dto) {
-        Optional<autor> existing = findById(id);
+        Optional<Autores> existing = findById(id);
         if (existing.isEmpty()) {
             return HttpStatus.BAD_REQUEST.toString() + ": El autor no existe";
         }
 
-        autor autorToUpdate = updateFields(existing.get(), dto);
+        Autores autorToUpdate = updateFields(existing.get(), dto);
         autorRepository.save(autorToUpdate);
         return HttpStatus.OK.toString() + ": Autor actualizado correctamente";
     }
 
     // Eliminar autor por ID
     public String delete(Long id) {
-        Optional<autor> autor = findById(id);
+        Optional<Autores> autor = findById(id);
         if (autor.isEmpty()) {
             return HttpStatus.BAD_REQUEST.toString() + ": El autor no existe o ya fue eliminado";
         }
@@ -58,10 +58,10 @@ public class AutorService {
     }
 
     // Conversión de DTO a modelo
-    private autor convertToModel(autorDTO dto) {
+    private Autores convertToModel(autorDTO dto) {
         try {
             java.util.Date fecha = new SimpleDateFormat("yyyy-MM-dd").parse(dto.getFechaNacimiento());
-            autor autor = new autor();
+            Autores autor = new Autores();
             autor.setNombre(dto.getNombre());
             autor.setNacionalidad(dto.getNacionalidad());
             autor.setFechaNacimiento(new java.sql.Date(fecha.getTime()));
@@ -72,7 +72,7 @@ public class AutorService {
     }
 
     // Método para actualizar campos
-    private autor updateFields(autor autor, autorDTO dto) {
+    private Autores updateFields(Autores autor, autorDTO dto) {
         try {
             java.util.Date fecha = new SimpleDateFormat("yyyy-MM-dd").parse(dto.getFechaNacimiento());
             autor.setNombre(dto.getNombre());
