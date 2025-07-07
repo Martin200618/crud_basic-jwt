@@ -20,7 +20,7 @@ public class LibroAutor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne 
-    private libro libros;
+    private Libros libros;
     @ManyToOne 
     private autor autores;
 }

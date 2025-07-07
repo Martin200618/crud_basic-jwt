@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.modelo.seguridad.DTO.libroDTO;
-import com.modelo.seguridad.model.libro;
+import com.modelo.seguridad.model.Libros;
 import com.modelo.seguridad.repository.LibroRepository;
 
 @Service
@@ -17,37 +17,37 @@ public class libroService {
     private LibroRepository libroRepository;
 
     // Obtener todos los libros
-    public List<libro> findAll() {
+    public List<Libros> findAll() {
         return libroRepository.findAll();
     }
 
     // Obtener libro por ID
-    public Optional<libro> findById(Long id) {
+    public Optional<Libros> findById(Long id) {
         return libroRepository.findById(id);
     }
 
     // Registrar un libro
     public String save(libroDTO dto) {
-        libro libro = convertToModel(dto);
+        Libros libro = convertToModel(dto);
         libroRepository.save(libro);
         return HttpStatus.OK.toString() + ": Libro registrado exitosamente";
     }
 
     // Actualizar un libro
     public String update(Long id, libroDTO dto) {
-        Optional<libro> existing = findById(id);
+        Optional<Libros> existing = findById(id);
         if (existing.isEmpty()) {
             return HttpStatus.BAD_REQUEST.toString() + ": El libro no existe";
         }
 
-        libro libroToUpdate = updateFields(existing.get(), dto);
+        Libros libroToUpdate = updateFields(existing.get(), dto);
         libroRepository.save(libroToUpdate);
         return HttpStatus.OK.toString() + ": Libro actualizado correctamente";
     }
 
     // Eliminar libro por ID
     public String delete(Long id) {
-        Optional<libro> libro = findById(id);
+        Optional<Libros> libro = findById(id);
         if (libro.isEmpty()) {
             return HttpStatus.BAD_REQUEST.toString() + ": El libro no existe o ya fue eliminado";
         }
@@ -57,8 +57,8 @@ public class libroService {
     }
 
     // Conversión de DTO a Modelo
-    private libro convertToModel(libroDTO dto) {
-        libro libro = new libro();
+    private Libros convertToModel(libroDTO dto) {
+        Libros libro = new Libros();
         libro.setTitulo(dto.getTitulo());
         libro.setAutor(dto.getAutor());
         libro.setAñoPublicacion(dto.getAñoPublicacion());
@@ -69,7 +69,7 @@ public class libroService {
     }
 
     // Método para actualizar los campos de un libro existente
-    private libro updateFields(libro libro, libroDTO dto) {
+    private Libros updateFields(Libros libro, libroDTO dto) {
         libro.setTitulo(dto.getTitulo());
         libro.setAutor(dto.getAutor());
         libro.setAñoPublicacion(dto.getAñoPublicacion());

@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class autorDTO {
+public class AlquilerDTO {
     private Long id;
-    private String nombre;
-    private String nacionalidad;
-    private String fechaNacimiento; // en formato "yyyy-MM-dd"
+    private Long usuarioId;
+    private Long libroId;
+    private String fechaAlquiler;
+    private String fechaDevolucion;
 
     // Getters y Setters
 }

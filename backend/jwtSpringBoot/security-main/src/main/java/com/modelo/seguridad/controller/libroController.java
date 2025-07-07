@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import com.modelo.seguridad.DTO.libroDTO;
-import com.modelo.seguridad.model.libro;
+import com.modelo.seguridad.model.Libros;
 import com.modelo.seguridad.service.libroService;
 @RestController
 @RequestMapping("/api/libros")
@@ -17,13 +17,13 @@ public class libroController {
 
     // Obtener todos los libros
     @GetMapping
-    public List<libro> getAll() {
+    public List<Libros> getAll() {
         return libroService.findAll();
     }
 
     // Obtener un libro por ID
     @GetMapping("/{id}")
-    public Optional<libro> getById(@PathVariable Long id) {
+    public Optional<Libros> getById(@PathVariable Long id) {
         return libroService.findById(id);
     }
 

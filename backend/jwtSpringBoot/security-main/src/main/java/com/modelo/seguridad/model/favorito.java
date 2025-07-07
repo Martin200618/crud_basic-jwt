@@ -23,7 +23,7 @@ public class favorito {
     @ManyToOne 
     private Users user;
     @ManyToOne
-    private libro libro;
+    private Libros libro;
     private LocalDate fechaGuardado;
     // Getters y setters
 }
