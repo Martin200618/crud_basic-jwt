@@ -8,10 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.modelo.seguridad.DTO.ChangePasswordDTO;
 import com.modelo.seguridad.DTO.ResponsesDTO;
 import com.modelo.seguridad.DTO.UserDTO;
 import com.modelo.seguridad.service.UserService;
@@ -40,17 +43,15 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    
-    // @DeleteMapping("/{id}") //usuario, falta desarrollar
-    // public ResponseEntity<Object> deleteUser(@PathVariable int id) {
-    //     ResponsesDTO response = userService.deleteUser(id);
-    //     return new ResponseEntity<>(response, HttpStatus.OK);
-    // }
-
     @PutMapping("/updateProfileUser")//falta
     public ResponseEntity<Object> updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
         ResponsesDTO response = userService.updateUser(id, userDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("/change-password")
+    public ResponseEntity<Object> changePassword(@RequestBody ChangePasswordDTO request) {
+        ResponsesDTO response = userService.changePassword(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

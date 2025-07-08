@@ -2,19 +2,27 @@ package com.modelo.seguridad.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.modelo.seguridad.DTO.ChangePasswordDTO;
+import com.modelo.seguridad.DTO.ForgotPasswordRequestDTO;
 import com.modelo.seguridad.DTO.RequestLoginDTO;
 import com.modelo.seguridad.DTO.RequestRegisterUserDTO;
 import com.modelo.seguridad.DTO.ResponseLogin;
 import com.modelo.seguridad.DTO.ResponsesDTO;
 import com.modelo.seguridad.DTO.UserDTO;
+import com.modelo.seguridad.model.Recovery_requests;
 import com.modelo.seguridad.model.Roles;
 import com.modelo.seguridad.model.Users;
+import com.modelo.seguridad.repository.Irecovery_request;
 import com.modelo.seguridad.repository.Iuser;
 import com.modelo.seguridad.service.jwt.jwtServices;
 import lombok.RequiredArgsConstructor;
@@ -121,5 +129,42 @@ public class UserService  {
                 rol);
     }
 
-  
+    public ResponsesDTO forgotPassword(ForgotPasswordRequestDTO request) {
+        Optional<Users> userOpt = data.findByEmail(request.getEmail());
+        if (!userOpt.isPresent()) {
+            return new ResponsesDTO(HttpStatus.NOT_FOUND.toString(), "Correo no registrado");
+        }
+        Users user = userOpt.get();
+        String token = UUID.randomUUID().toString();
+        long expirationTime = System.currentTimeMillis() + 1000 * 60 * 15; // 15 minutos
+        Recovery_requests recovery = new Recovery_requests();
+        recovery.setEmail(user.getEmail());
+        recovery.setToken(token);
+        recovery.setExpirationTime(expirationTime);
+        recovery.setUser(user);
+        System.out.println("Token de recuperación: " + token);
+        return new ResponsesDTO(HttpStatus.OK.toString(), "Se ha enviado un token de recuperación al correo");
+    }
+
+    @Autowired
+    private Irecovery_request recoveryRequestRepository;
+    public ResponsesDTO changePassword(ChangePasswordDTO request) {
+        Optional<Recovery_requests> recoveryOpt = recoveryRequestRepository
+            .findAll()
+            .stream()
+            .filter(r -> r.getToken().equals(request.getToken()))
+            .findFirst();
+        if (!recoveryOpt.isPresent()) {
+            return new ResponsesDTO(HttpStatus.NOT_FOUND.toString(), "Token inválido");
+        }
+        Recovery_requests recovery = recoveryOpt.get();
+        if (recovery.getExpirationTime() < System.currentTimeMillis()) {
+            return new ResponsesDTO(HttpStatus.BAD_REQUEST.toString(), "Token expirado");
+        }
+        Users user = recovery.getUser();
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        data.save(user);
+        recoveryRequestRepository.delete(recovery); // eliminar token usado
+        return new ResponsesDTO(HttpStatus.OK.toString(), "Contraseña actualizada correctamente");
+    }
 }

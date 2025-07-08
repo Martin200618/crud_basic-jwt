@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.modelo.seguridad.DTO.ForgotPasswordRequestDTO;
 import com.modelo.seguridad.DTO.RequestLoginDTO;
 import com.modelo.seguridad.DTO.RequestRegisterUserDTO;
 import com.modelo.seguridad.DTO.ResponseLogin;
@@ -33,9 +34,9 @@ public class UserPublicController {
         return new ResponseEntity<ResponseLogin>(response, HttpStatus.OK);
     }
 
-    //  @PostMapping("/forgot") //falta desarrollar
-    // public ResponseEntity<Object> forgot(@RequestBody UserDTO userDTO) {
-    //     // ResponsesDTO response = userService.save(userDTO);
-    //     return new ResponseEntity<>(response, HttpStatus.OK);
-    // }   
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Object> forgotPassword(@RequestBody ForgotPasswordRequestDTO request) {
+        ResponsesDTO response = userService.forgotPassword(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }   
 }
