@@ -3,7 +3,13 @@ package com.modelo.seguridad.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.modelo.seguridad.model.Pages;
 import com.modelo.seguridad.model.Roles;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Permission_roleDTO {
     @JsonProperty("id")
     private int permission_roleid;
@@ -11,42 +17,5 @@ public class Permission_roleDTO {
     private Roles role;
     private String type;
 
-    public Permission_roleDTO() {
-    }
-
-    public Permission_roleDTO(int permission_roleid, Pages page, Roles role, String type) {
-        this.permission_roleid = permission_roleid;
-        this.page = page;
-        this.role = role;
-        this.type = type;
-    }
-
-    public int getPermission_roleid() {
-        return permission_roleid;
-    }
-    public void setPermission_roleid(int permission_roleid) {
-        this.permission_roleid = permission_roleid;
-    }
-
-    public Pages getPage() {
-        return page;
-    }
-    public void setPage(Pages page) {
-        this.page = page;
-    }
-
-    public Roles getRole() {
-        return role;
-    }
-    public void setRole(Roles role) {
-        this.role = role;
-    }
-
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
-
+    // Getters and Setters
 }

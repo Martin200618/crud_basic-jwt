@@ -1,28 +1,15 @@
 package com.modelo.seguridad.DTO;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResponsesDTO {
-     private String status;
+    private String status;
     private String message;
 
-    public ResponsesDTO(String status, String message) {
-        this.status = status;
-        this.message = message;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
+    // Getters and Setters
 }

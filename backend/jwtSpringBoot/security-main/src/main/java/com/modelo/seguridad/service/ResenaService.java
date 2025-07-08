@@ -1,16 +1,13 @@
 package com.modelo.seguridad.service;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import com.modelo.seguridad.model.Users;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.modelo.seguridad.DTO.ResenaDTO;
 import com.modelo.seguridad.model.Libros;
 import com.modelo.seguridad.model.Reseña;
